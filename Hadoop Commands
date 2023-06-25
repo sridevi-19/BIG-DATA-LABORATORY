@@ -1,0 +1,99 @@
+1. mkdir
+Hadoop HDFS mkdir Command Usage mkdir Hadoop HDFS mkdir Command Example hdfs
+dfs -mkdir /abc Hadoop HDFS mkdir Command Description This HDFS command takes path
+URI’s as an argument and creates directories.
+2. ls
+Hadoop HDFS ls Command Usage ls Hadoop HDFS ls Command Example hadoop fs -ls /
+Hadoop HDFS ls Commnad Description This Hadoop HDFS ls command displays a list of
+the contents of a directory specified by path provided by the user, showing the names,
+permissions, owner, size and modification date for each entry.
+3. put
+Hadoop HDFS put Command Usage put Hadoop HDFS put Command Example
+hdfs dfs -put /home/hduser/Desktop/Welcome.txt /abc/WC.txt
+Hadoop HDFS put Command Description This hadoop basic command copies the file or
+directory from the local file system to the destination within the DFS. Display the contents of
+the file WC.txt
+hdfs dfs -cat /abc/WC.txt
+
+4. copyFromLocal
+Hadoop HDFS copyFromLocal Command Usage copyFromLocal Hadoop HDFS
+copyFromLocal Command Example hdfs dfs -put /home/hduser/Desktop/Welcome.txt
+/abc/WC.txt Hadoop HDFS copyFromLocal Command Description This hadoop shell
+command is similar to put command, but the source is restricted to a local file.
+
+Display the contents of the file WC2.txt hdfs dfs -cat /abc/WC2.txt
+5. get
+Hadoop HDFS get Command Usage get [-crc]
+i. Hadoop HDFS get Command Example hdfs dfs -get /abc/WC.txt
+/home/hduser/Downloads/WWC.txt This HDFS fs command copies the file or directory in
+HDFS identified by the source to the local file system path identified by local destination.
+ii. Hadoop HDFS get Command Example hdfs dfs -getmerge /abc/WC.txt /abc/WC2.txt
+/home/hduser/Desktop/Merge.txt
+This HDFS basic command retrieves all files that match to the source path entered by the
+user in HDFS, and creates a copy of them to one single, merged file in the local file system
+identified by local destination.
+iii. Hadoop HDFS get Command Example hadoop fs -getfacl /abc/
+This Apache Hadoop command shows the Access Control Lists (ACLs) of files and
+directories.
+
+6. copyToLocal
+Hadoop HDFS copyToLocal Command Usage copyToLocal Hadoop HDFS copyToLocal
+Command Example hdfs dfs -copyToLocal /abc/WC.txt /home/hduser/Desktop Similar to get
+command, only the difference is that in this the destination is restricted to a local file
+reference.
+
+7. cat
+Hadoop HDFS cat Command Usage cat Hadoop HDFS cat Command Example
+hdfs dfs -cat /abc/WC.txt .
+
+This Hadoop fs shell command displays the contents of the filename on console or stdout.
+
+8. mv
+Hadoop HDFS mv Command Usage mv Hadoop HDFS mv Command Example hadoop fs -
+mv /abc /FFF hadoop fs -ls /FFF This basic HDFS command moves the file or directory
+indicated by the source to destination, within HDFS.
+9. cp
+Hadoop HDFS cp Command Usage cp Hadoop HDFS cp Command Example
+
+hadoop fs -cp /CSE/ /LLL hadoop fs -ls /LLL
+
+The cp command copies a file from one directory to another directory within the HDFS.
+
+// start hadoop (must be in hduser)
+$ start-all.sh
+// creating a directory inside hadoop -mkdir
+$ hdfs dfs -mkdir /bda_hadoop
+// listing all content inside hadoop - ls
+$ hadoop fs -ls /
+// copyig files from deskop using put command - put
+$ hdfs dfs -put /home/hduser/Desktop/bda_local.txt /bda_hadoop/file.txt
+// cat command(listing the content of file in hadoop) -cat
+$ hdfs dfs -cat /bda_hadoop/file.txt
+
+// copying files from local reference using copyFromLocal cmd.
+
+$ hdfs dfs -copyFromLocal /home/hduser/Desktop/bda_local.txt /bda_hadoop/file_cp_local.txt
+$ hdfs dfs -cat /bda_hadoop/file_cp_local.txt
+// get command
+$ hdfs dfs -get /bda_hadoop/file.txt /home/hduser/Downloads/downloaded_file.txt
+$ hdfs dfs -getmerge /bda_hadoop/file.txt /bda_hadoop/file_cp_local.txt
+/home/hduser/Downloads/downloaded_file.txt
+
+$ hadoop fs -getfacl /bda_hadoop/
+# file: /bda_hadoop
+# owner: hduser
+# group: supergroup
+user::rwx
+group::r-x
+other::r-x
+
+// copyToLocal
+$ hdfs dfs -copyToLocal /bda_hadoop/file.txt /home/hduser/Desktop
+
+// mv
+$ hadoop fs -mv /bda_hadoop /abc
+$ hadoop fs -ls /abc
+Found 1 items
+drwxr-xr-x - hduser supergroup 0 2022-06-06 11:52 /abc/bda_hadoop
+// copy
+$ hadoop fs -cp /hello/ /hadoop_lab

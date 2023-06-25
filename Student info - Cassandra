@@ -1,0 +1,107 @@
+test> show dbs;
+admin    40.00 KiB
+config   96.00 KiB
+local    72.00 KiB
+myDB    112.00 KiB
+test> db.createCollection("Student");
+{ ok: 1 }
+test> db.Student.drop();
+true
+test> db.createCollection("Students");
+{ ok: 1 }
+test> db.Students.insert({_id:1,StudName:"MichelleJacintha",Grade:"VII",Hobbies:"InternetSurfing"})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{ acknowledged: true, insertedIds: { '0': 1 } }
+test> db.Students.update({_id:3,StudName:"AryanDavid",Grade:"VII"},{$set:{Hobbies:"Skating"}},{upsert:true}};
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:101)
+
+> 1 | db.Students.update({_id:3,StudName:"AryanDavid",Grade:"VII"},{$set:{Hobbies:"Skating"}},{upsert:true}};
+    |                                                                                                      ^
+  2 |
+
+test> db.Students.update({_id:3,StudName:"AryanDavid",Grade:"VII"},{$set:{Hobbies:"Skating"}},{upsert:true});
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: 3,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+test> db.Student.find({StudName:"AryanDavid"});
+
+test> db.Students.find({StudName:"AryanDavid"});
+[
+  { _id: 3, Grade: 'VII', StudName: 'AryanDavid', Hobbies: 'Skating' }
+]
+test> db.Students.find({Grade:{$eq:'VII'}}).pretty();
+[
+  {
+    _id: 1,
+    StudName: 'MichelleJacintha',
+    Grade: 'VII',
+    Hobbies: 'InternetSurfing'
+  },
+  { _id: 3, Grade: 'VII', StudName: 'AryanDavid', Hobbies: 'Skating' }
+]
+test> db.Students.find({Hobbies:{$in:['Chess','Skating']}}}).pretty();
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:52)
+
+> 1 | db.Students.find({Hobbies:{$in:['Chess','Skating']}}}).pretty();
+    |                                                     ^
+  2 |
+
+test> db.Students.find({Hobbies:{$in:['Chess','Skating']}}).pretty();
+[
+  { _id: 3, Grade: 'VII', StudName: 'AryanDavid', Hobbies: 'Skating' }
+]
+test> db.Students.find({StudName:/^M/}).pretty;
+[Function: pretty] {
+  returnType: 'this',
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  apiVersions: [ 0, Infinity ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnsPromise: false,
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+test> db.Students.find({StudName:/^M/}).pretty();
+[
+  {
+    _id: 1,
+    StudName: 'MichelleJacintha',
+    Grade: 'VII',
+    Hobbies: 'InternetSurfing'
+  }
+]
+test> db.Students.find({StudName:/e/}).pretty();
+[
+  {
+    _id: 1,
+    StudName: 'MichelleJacintha',
+    Grade: 'VII',
+    Hobbies: 'InternetSurfing'
+  }
+]
+test> db.Students.count();
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+2
+test> db.Students.find().sort({StudName:-1}).pretty();
+[
+  {
+    _id: 1,
+    StudName: 'MichelleJacintha',
+    Grade: 'VII',
+    Hobbies: 'InternetSurfing'
+  },
+  { _id: 3, Grade: 'VII', StudName: 'AryanDavid', Hobbies: 'Skating' }
+]
+test> db.Students.save({StudName:"Vamsi",Grade:"VI"})
+TypeError: db.Students.save is not a function
+test> 

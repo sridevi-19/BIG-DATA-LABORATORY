@@ -1,0 +1,44 @@
+CREATE KEYSPACE Students WITH REPLICATION = {
+'class':'SimpleStrategy',
+'replication_factor':1
+};
+CREATE KEYSPACE Students WITH REPLICATION = { 'class':'SimpleStrategy', 'replication_factor':1 };
+describe keyspaces;
+use Students;
+CREATE TABLE Student_Info(
+RollNo int PRIMARY Key,
+StudName text,
+DateofJoining timestamp,
+LastExamPercent double
+);
+CREATE TABLE Student_Info( RollNo int PRIMARY Key, StudName text, DateofJoining timestamp, LastExamPercent double );
+describe tables
+describe table Student_Info
+BEGIN BATCH
+INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent)
+VALUES(1,'Michael Storm','2012-03-29',69.6)
+INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent)
+VALUES(2,'Stephan Fox','2012-02-27',72.5)
+INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent)
+VALUES(3,'David Flemming','2014-04-12',81.7)
+INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent)
+VALUES(4,'Ian String','2014-05-11',73.4)
+APPLY BATCH
+APPLY BATCh;
+BEGIN BATCH INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(1,'Michael Storm','2012-03-29',69.6) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(2,'Stephan Fox','2012-02-27',72.5) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(3,'David Flemming','2014-04-12',81.7) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(4,'Ian String','2014-05-11',73.4) APPLY BATCH APPLY BATCh;
+BEGIN BATCH INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(1,'Michael Storm','2012-03-29',69.6) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(2,'Stephan Fox','2012-02-27',72.5) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(3,'David Flemming','2014-04-12',81.7) INSERT INTO student_info(Rollno,studname,dateofjoining,lastexampercent) VALUES(4,'Ian String','2014-05-11',73.4) APPLY BATCH;
+select * from student_info
+;
+select * from student_info ;
+CREATE INDEX ON Student_Info(studname);
+select *
+from student_info
+where studname='ABC';
+select * from student_info where studname='ABC';
+select * from student_info where studname='Ian String';
+select * from student_info where lastexampercent=72.5;
+CREATE INDEX ON Student_Info(lastexampercent);
+select * from student_info where lastexampercent=72.5;
+UPDATE student_info, SET rollno=6 where rollno=3;
+UPDATE student_info SET rollno=6 where rollno=3;
+exit

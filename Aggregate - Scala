@@ -1,0 +1,17 @@
+scala&gt; val numbers = sc.parallelize(1 to 20,4)
+numbers: org.apache.spark.rdd.RDD[Int] =
+ParallelCollectionRDD[18] at parallelize at &lt;console&gt;:24
+
+scala&gt;numbers.glom().collect()
+res22: Array[Array[Int]] = Array(Array(1, 2, 3, 4, 5), Array(6, 7, 8, 9,
+10), Array(11, 12, 13, 14, 15), Array(16, 17, 18, 19, 20))
+scala&gt; numbers.aggregate(0)(_ + _, _ + _)
+res23: Int = 210
+15+0=15
+40+0=40
+65+0=65
+90+0=90
+
+Yellow is partition wise addition – 15, 40, 65, 90
+Blue is going to add the result of partition wise addition i.e =
+15+40+65+90 = 210

@@ -1,0 +1,14 @@
+val data=sc.textFile(&quot;sparkdata.txt&quot;)
+data.collect;
+val splitdata = data.flatMap(line =&gt; line.split(&quot; &quot;));
+splitdata.collect;
+val mapdata = splitdata.map(word =&gt; (word,1));
+mapdata.collect;
+val reducedata = mapdata.reduceByKey(_+_);
+reducedata.collect;
+package helloWorld
+object hello {
+def main (args: Array[String]) {
+println(&quot;Hello World&quot;)
+}
+}

@@ -1,0 +1,140 @@
+employeeinfo
+
+cqlsh:employee> select * from employeeinfo
+            ... ;
+
+ empid | date                            | dept | designation | empname | salary
+-------+---------------------------------+------+-------------+---------+--------
+     1 | 2020-12-11 18:30:00.000000+0000 |  abc |          hr |     efg |  10000
+
+(1 rows)
+cqlsh:employee> BEGIN BATCH 
+            ... INSERT INTO employeeinfo(empid,empname,date,designation,salary,dept)
+            ... VALUES(2,'prathvi','2020-11-11','SD',25000,'software')
+            ... INSERT INTO employeeinfo(empid,empname,date,designation,salary,dept)
+            ... VALUES(3,'sakshi','2020-10-10','SD',35000,'software')
+            ... INSERT INTO employeeinfo(empid,empname,date,designation,salary,dept)
+            ... VALUES(4,'siri','2020-09-09','Manager',45000,'marketing')
+            ... APPLY BATCH;
+cqlsh:employee> select * from employeeinfo
+            ... ;
+
+ empid | date                            | dept      | designation | empname | salary
+-------+---------------------------------+-----------+-------------+---------+--------
+     1 | 2020-12-11 18:30:00.000000+0000 |       abc |          hr |     efg |  10000
+     2 | 2020-11-10 18:30:00.000000+0000 |  software |          SD | prathvi |  25000
+     4 | 2020-09-08 18:30:00.000000+0000 | marketing |     Manager |    siri |  45000
+     3 | 2020-10-09 18:30:00.000000+0000 |  software |          SD |  sakshi |  35000
+
+(4 rows)
+cqlsh:employee> select * from employeeinfo order by salary ASC;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="ORDER BY is only supported when the partition key is restricted by an EQ or an IN."
+cqlsh:employee> select * from employeeinfo where empid IN(1,2,3,4)order by salary ASC;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Order by is currently only supported on the clustered columns of the PRIMARY KEY, got salary"
+cqlsh:employee> select * from employeeinfo where empid IN(1,2,3,4) order by salary ASC;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Order by is currently only supported on the clustered columns of the PRIMARY KEY, got salary"
+cqlsh:employee> select * from employeeinfo where empid IN(1,2,3,4)order by empid ASC;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Order by is currently only supported on the clustered columns of the PRIMARY KEY, got empid"
+cqlsh:employee> select * from employeeinfo order by salary ASC;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="ORDER BY is only supported when the partition key is restricted by an EQ or an IN."
+cqlsh:employee> alte table employ add project text;
+SyntaxException: line 1:0 no viable alternative at input 'alte' ([alte]...)
+cqlsh:employee> alter table employ add project text;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Table 'employee.employ' doesn't exist"
+cqlsh:employee> alter table employeeinfo add project text;
+cqlsh:employee> update employeeinfo set project='Samsung' where empid=1;
+cqlsh:employee> select * from employee
+            ... ;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="table employee does not exist"
+cqlsh:employee> select * from employeeinfo;
+
+ empid | date                            | dept      | designation | empname | project | salary
+-------+---------------------------------+-----------+-------------+---------+---------+--------
+     1 | 2020-12-11 18:30:00.000000+0000 |       abc |          hr |     efg | Samsung |  10000
+     2 | 2020-11-10 18:30:00.000000+0000 |  software |          SD | prathvi |    null |  25000
+     4 | 2020-09-08 18:30:00.000000+0000 | marketing |     Manager |    siri |    null |  45000
+     3 | 2020-10-09 18:30:00.000000+0000 |  software |          SD |  sakshi |    null |  35000
+
+(4 rows)
+cqlsh:employee>  insert into employeeinfo(empid,empname,date,designation,salary,dept)
+            ... VALUES(5,'sam','2020-08-08','CEO',50000,'Software')usind TTL 15;
+SyntaxException: line 2:51 mismatched input 'usind' expecting EOF (...'sam','2020-08-08','CEO',50000,'Software')[usind]...)
+cqlsh:employee>  insert into employeeinfo(empid,empname,date,designation,salary,dept) VALUES(5,'sam','2020-08-08','CEO',50000,'Software')using TTL 15;
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+         null
+         null
+         null
+         null
+
+(4 rows)
+cqlsh:employee>  insert into employeeinfo(empid,empname,date,designation,salary,dept) VALUES(5,'sam','2020-08-08','CEO',50000,'Software')using TTL 15;
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+           11
+         null
+         null
+         null
+         null
+
+(5 rows)
+cqlsh:employee>  insert into employeeinfo(empid,empname,date,designation,salary,dept) VALUES(5,'sam','2020-08-08','CEO',50000,'Software')using TTL 15;
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+           12
+         null
+         null
+         null
+         null
+
+(5 rows)
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+            5
+         null
+         null
+         null
+         null
+
+(5 rows)
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+            2
+         null
+         null
+         null
+         null
+
+(5 rows)
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+         null
+         null
+         null
+         null
+
+(4 rows)
+cqlsh:employee> select TTL(empname) from employeeinfo;
+
+ ttl(empname)
+--------------
+         null
+         null
+         null
+         null
+
+(4 rows)
+cqlsh:employee> 
+cqlsh:employee> 
